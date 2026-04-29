@@ -116,7 +116,7 @@ func Send[TResponse any](ctx context.Context, m Mediator, request any) (TRespons
 	requestType := reflect.TypeOf(request)
 	response, err := m.Send(ctx, request, requestType, internal.TypeOf[TResponse]())
 	if response == nil {
-		response = internal.Zero[TResponse]()
+		return internal.Zero[TResponse](), err
 	}
 	return response.(TResponse), err
 }

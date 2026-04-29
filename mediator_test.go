@@ -61,3 +61,18 @@ func TestEventHandlerGetsCalled(t *testing.T) {
 	require.NoError(t, err)
 	assert.True(t, evtHandlerCalled)
 }
+
+func TestNilResponseDoesNotPanic(t *testing.T) {
+	// arrange
+	m := NewMediator()
+	RegisterHandler(m, func(ctx context.Context, request string) (any, error) {
+		return nil, nil
+	})
+
+	// act
+	res, err := Send[any](t.Context(), m, "foo")
+
+	// assert
+	require.NoError(t, err)
+	assert.Nil(t, res)
+}
